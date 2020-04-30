@@ -7,6 +7,14 @@
 #include "allocator.hpp"
 
 #include "debug.hpp"
+// TODO: move into string util file
+void clone_string(char*& dest, const char* src)
+{
+	size_t size = std::strlen(src) + 1;
+	auto& alloc = Allocator::getGlobalAllocator();
+	dest = static_cast<char*>(alloc.allocate(size));
+	std::memcpy(dest, src, size);
+}
 
 Object::Object()
 	:	mType(ObjectType::Nil)
@@ -21,10 +29,7 @@ Object::Object(const Object& rhs)
 	// special case for strings
 	if (mType == ObjectType::String)
 	{
-		size_t size = std::strlen(rhs.mData.cstr) + 1;
-		auto& alloc = Allocator::getGlobalAllocator();
-		this->mData.cstr = static_cast<char*>(alloc.allocate(size));
-		std::memcpy(this->mData.cstr, rhs.mData.cstr, size);
+		clone_string(mData.cstr, rhs.mData.cstr);
 	}
 	else
 	{
@@ -39,10 +44,7 @@ Object::Object(Object&& rhs)
 	// special case for strings
 	if (mType == ObjectType::String)
 	{
-		size_t size = std::strlen(rhs.mData.cstr) + 1;
-		auto& alloc = Allocator::getGlobalAllocator();
-		this->mData.cstr = static_cast<char*>(alloc.allocate(size));
-		std::memcpy(this->mData.cstr, rhs.mData.cstr, size);
+		clone_string(mData.cstr, rhs.mData.cstr);
 	}
 	else
 	{
@@ -113,11 +115,7 @@ Object::Object(double f64)
 Object::Object(const char* str)
 	:	mType(ObjectType::String)
 {
-	size_t size = std::strlen(str) + 1;
-	auto& alloc = Allocator::getGlobalAllocator();
-
-	mData.cstr = static_cast<char*>(alloc.allocate(size));
-	std::memcpy(mData.cstr, str, size);
+	clone_string(mData.cstr, str);
 }
 
 Object::~Object()
@@ -136,10 +134,7 @@ Object& Object::operator=(const Object& rhs)
 	// special case for strings
 	if (mType == ObjectType::String)
 	{
-		size_t size = std::strlen(rhs.mData.cstr) + 1;
-		auto& alloc = Allocator::getGlobalAllocator();
-		this->mData.cstr = static_cast<char*>(alloc.allocate(size));
-		std::memcpy(this->mData.cstr, rhs.mData.cstr, size);
+		clone_string(mData.cstr, rhs.mData.cstr);
 	}
 	else
 	{
@@ -156,10 +151,7 @@ Object& Object::operator=(Object&& rhs) noexcept
 	// special case for strings
 	if (mType == ObjectType::String)
 	{
-		size_t size = std::strlen(rhs.mData.cstr) + 1;
-		auto& alloc = Allocator::getGlobalAllocator();
-		this->mData.cstr = static_cast<char*>(alloc.allocate(size));
-		std::memcpy(this->mData.cstr, rhs.mData.cstr, size);
+		clone_string(mData.cstr, rhs.mData.cstr);
 	}
 	else
 	{
