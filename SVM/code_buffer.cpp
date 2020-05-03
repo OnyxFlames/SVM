@@ -9,6 +9,11 @@ CodeBuffer::CodeBuffer()
 {
 }
 
+CodeBuffer::~CodeBuffer()
+{
+	free_array(uint8_t, mCode, mCapacity);
+}
+
 // TODO: phase out memory.hpp for a cleaner allocation 
 // Note, CodeBuffer doesnt use the VM's runtime allocator, this is intentional
 size_t CodeBuffer::write(const uint8_t byte)

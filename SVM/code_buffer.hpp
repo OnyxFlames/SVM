@@ -11,6 +11,7 @@ private:
 public:
 
 	CodeBuffer();
+	~CodeBuffer();
 
 	size_t write(const uint8_t byte);
 	size_t write(const std::initializer_list<uint8_t> bytes);
@@ -18,4 +19,6 @@ public:
 	bool write_at(size_t offset, const uint8_t byte);
 
 	uint8_t* get();
+
+
 };
