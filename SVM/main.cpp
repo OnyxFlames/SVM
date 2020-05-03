@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-		printf("Version: %s\n", SVM_FULL_VERSION);
+		printf("Filesize: %lld\n", get_filesize("output.inl"));
 	}
 
 	return 0;
