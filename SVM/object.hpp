@@ -51,6 +51,8 @@ public:
 	Object operator%(const Object& rhs);
 	Object operator<<(const Object& rhs);
 	Object operator>>(const Object& rhs);
+	Object& operator++();
+	Object& operator--();
 
 	const ObjectType getType() const;
 	const ObjectData& getData() const;

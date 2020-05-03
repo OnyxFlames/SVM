@@ -20,7 +20,12 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-
+		Object obj(1000);
+		for (uint8_t i = 0; i < 200; ++i)
+		{
+			--obj;
+			std::cout << obj.str() << '\n';
+		}
 	}
 	else if (f.print_version)
 	{

@@ -90,7 +90,9 @@ void generate_object_arith(const std::string output)
 		<< generate_numeric32_binary_arith()
 		<< generate_integral32_binary_arith()
 		<< generate_numeric64_binary_arith()
-		<< generate_integral64_binary_arith();
+		<< generate_integral64_binary_arith()
+		<< generate_numeric32_unary_arith()
+		<< generate_numeric64_unary_arith();
 
 }
 
@@ -99,7 +101,7 @@ std::string generate_numeric32_binary_arith()
 	std::stringstream output_file;
 
 	output_file
-		<< generate_macro_header("OBJECT_NUMERIC_ARITH32", { "ret", "obj1", "obj2", "op" })
+		<< generate_macro_header("OBJECT_NUMERIC_BINARY_ARITH32", { "ret", "obj1", "obj2", "op" })
 		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
 
 	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
@@ -131,7 +133,7 @@ std::string generate_integral32_binary_arith()
 	std::stringstream output_file;
 
 	output_file
-		<< generate_macro_header("OBJECT_INTEGRAL_ARITH32", { "ret", "obj1", "obj2", "op" })
+		<< generate_macro_header("OBJECT_INTEGRAL_BINARY_ARITH32", { "ret", "obj1", "obj2", "op" })
 		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
 
 	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
@@ -164,7 +166,7 @@ std::string generate_numeric64_binary_arith()
 	std::stringstream output_file;
 
 	output_file
-		<< generate_macro_header("OBJECT_NUMERIC_ARITH64", { "ret", "obj1", "obj2", "op" })
+		<< generate_macro_header("OBJECT_NUMERIC_BINARY_ARITH64", { "ret", "obj1", "obj2", "op" })
 		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
 
 	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
@@ -192,11 +194,10 @@ std::string generate_numeric64_binary_arith()
 
 std::string generate_integral64_binary_arith()
 {
-
 	std::stringstream output_file;
 
 	output_file
-		<< generate_macro_header("OBJECT_INTEGRAL_ARITH64", { "ret", "obj1", "obj2", "op" })
+		<< generate_macro_header("OBJECT_INTEGRAL_BINARY_ARITH64", { "ret", "obj1", "obj2", "op" })
 		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
 
 	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
@@ -214,6 +215,58 @@ std::string generate_integral64_binary_arith()
 					<< "ret = Object(obj1.getData()" << get_type_accessor(type1) << " op " << "obj2.getData()" << get_type_accessor(type2) << ");"
 					<< generate_break();
 			}
+		}
+	}
+
+	output_file << generate_switch_footer() << '\n';
+
+	return output_file.str();
+}
+
+std::string generate_numeric32_unary_arith()
+{
+	std::stringstream output_file;
+
+	output_file
+		<< generate_macro_header("OBJECT_NUMERIC_UNARY_ARITH32", { "ret", "obj", "op" })
+		<< generate_switch_header("obj.getType()");
+
+	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
+	{
+		const ObjectType type1 = static_cast<ObjectType>(x);
+		if (
+			is_numeric(type1)
+			&& (width(type1) < 8))
+		{
+			output_file
+				<< generate_switch_case(type1)
+				<< "ret = Object(obj.getData()" << get_type_accessor(type1) << " op );"
+				<< generate_break();
+		}
+	}
+
+	output_file << generate_switch_footer() << '\n';
+
+	return output_file.str();
+}
+
+std::string generate_numeric64_unary_arith()
+{
+	std::stringstream output_file;
+
+	output_file
+		<< generate_macro_header("OBJECT_NUMERIC_UNARY_ARITH64", { "ret", "obj", "op" })
+		<< generate_switch_header("obj.getType()");
+
+	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
+	{
+		const ObjectType type1 = static_cast<ObjectType>(x);
+		if (is_numeric(type1))
+		{
+			output_file
+				<< generate_switch_case(type1)
+				<< "ret = Object(obj.getData()" << get_type_accessor(type1) << " op );"
+				<< generate_break();
 		}
 	}
 

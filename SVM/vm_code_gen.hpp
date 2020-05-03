@@ -33,3 +33,6 @@ std::string generate_integral32_binary_arith();
 
 std::string generate_numeric64_binary_arith();
 std::string generate_integral64_binary_arith();
+
+std::string generate_numeric32_unary_arith();
+std::string generate_numeric64_unary_arith();

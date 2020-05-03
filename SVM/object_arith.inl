@@ -1,6 +1,6 @@
 #pragma once
 
-#define OBJECT_NUMERIC_ARITH32(ret, obj1, obj2, op)\
+#define OBJECT_NUMERIC_BINARY_ARITH32(ret, obj1, obj2, op)\
 switch (get_type_pair(obj1.getType(), obj2.getType()))\
 {\
 case 257: ret = Object(obj1.getData().i8 op obj2.getData().i8);break;\
@@ -55,7 +55,7 @@ case 2313: ret = Object(obj1.getData().f32 op obj2.getData().f32);break;\
 default: assert(false && "Reached end of switch"); break;\
 }\
 
-#define OBJECT_INTEGRAL_ARITH32(ret, obj1, obj2, op)\
+#define OBJECT_INTEGRAL_BINARY_ARITH32(ret, obj1, obj2, op)\
 switch (get_type_pair(obj1.getType(), obj2.getType()))\
 {\
 case 257: ret = Object(obj1.getData().i8 op obj2.getData().i8);break;\
@@ -97,7 +97,7 @@ case 1542: ret = Object(obj1.getData().u32 op obj2.getData().u32);break;\
 default: assert(false && "Reached end of switch"); break;\
 }\
 
-#define OBJECT_NUMERIC_ARITH64(ret, obj1, obj2, op)\
+#define OBJECT_NUMERIC_BINARY_ARITH64(ret, obj1, obj2, op)\
 switch (get_type_pair(obj1.getType(), obj2.getType()))\
 {\
 case 257: ret = Object(obj1.getData().i8 op obj2.getData().i8);break;\
@@ -203,7 +203,7 @@ case 2570: ret = Object(obj1.getData().f64 op obj2.getData().f64);break;\
 default: assert(false && "Reached end of switch"); break;\
 }\
 
-#define OBJECT_INTEGRAL_ARITH64(ret, obj1, obj2, op)\
+#define OBJECT_INTEGRAL_BINARY_ARITH64(ret, obj1, obj2, op)\
 switch (get_type_pair(obj1.getType(), obj2.getType()))\
 {\
 case 257: ret = Object(obj1.getData().i8 op obj2.getData().i8);break;\
@@ -270,6 +270,35 @@ case 1288: ret = Object(obj1.getData().u64 op obj2.getData().i32);break;\
 case 1544: ret = Object(obj1.getData().u64 op obj2.getData().u32);break;\
 case 1800: ret = Object(obj1.getData().u64 op obj2.getData().i64);break;\
 case 2056: ret = Object(obj1.getData().u64 op obj2.getData().u64);break;\
+default: assert(false && "Reached end of switch"); break;\
+}\
+
+#define OBJECT_NUMERIC_UNARY_ARITH32(ret, obj, op)\
+switch (obj.getType())\
+{\
+case 1: ret = Object(obj.getData().i8 op );break;\
+case 2: ret = Object(obj.getData().u8 op );break;\
+case 3: ret = Object(obj.getData().i16 op );break;\
+case 4: ret = Object(obj.getData().u16 op );break;\
+case 5: ret = Object(obj.getData().i32 op );break;\
+case 6: ret = Object(obj.getData().u32 op );break;\
+case 9: ret = Object(obj.getData().f32 op );break;\
+default: assert(false && "Reached end of switch"); break;\
+}\
+
+#define OBJECT_NUMERIC_UNARY_ARITH64(ret, obj, op)\
+switch (obj.getType())\
+{\
+case 1: ret = Object(obj.getData().i8 op );break;\
+case 2: ret = Object(obj.getData().u8 op );break;\
+case 3: ret = Object(obj.getData().i16 op );break;\
+case 4: ret = Object(obj.getData().u16 op );break;\
+case 5: ret = Object(obj.getData().i32 op );break;\
+case 6: ret = Object(obj.getData().u32 op );break;\
+case 7: ret = Object(obj.getData().i64 op );break;\
+case 8: ret = Object(obj.getData().u64 op );break;\
+case 9: ret = Object(obj.getData().f32 op );break;\
+case 10: ret = Object(obj.getData().f64 op );break;\
 default: assert(false && "Reached end of switch"); break;\
 }\
 

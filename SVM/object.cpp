@@ -258,9 +258,9 @@ Object Object::operator+(const Object& rhs)
 	else
 	{
 #if defined(SVM_64BIT)
-		OBJECT_NUMERIC_ARITH64(ret, curr, rhs, +);
+		OBJECT_NUMERIC_BINARY_ARITH64(ret, curr, rhs, +);
 #else
-		OBJECT_NUMERIC_ARITH32(ret, curr, rhs, +);
+		OBJECT_NUMERIC_BINARY_ARITH32(ret, curr, rhs, +);
 #endif
 	}
 	return ret;
@@ -272,9 +272,9 @@ Object Object::operator-(const Object& rhs)
 	Object& curr = *this;
 
 #if defined(SVM_64BIT)
-	OBJECT_NUMERIC_ARITH64(ret, curr, rhs, -);
+	OBJECT_NUMERIC_BINARY_ARITH64(ret, curr, rhs, -);
 #else
-	OBJECT_NUMERIC_ARITH32(ret, curr, rhs, -);
+	OBJECT_NUMERIC_BINARY_ARITH32(ret, curr, rhs, -);
 #endif
 
 	return ret;
@@ -286,9 +286,9 @@ Object Object::operator*(const Object& rhs)
 	Object& curr = *this;
 
 #if defined(SVM_64BIT)
-	OBJECT_NUMERIC_ARITH64(ret, curr, rhs, *);
+	OBJECT_NUMERIC_BINARY_ARITH64(ret, curr, rhs, *);
 #else
-	OBJECT_NUMERIC_ARITH32(ret, curr, rhs, *);
+	OBJECT_NUMERIC_BINARY_ARITH32(ret, curr, rhs, *);
 #endif
 
 	return ret;
@@ -300,9 +300,9 @@ Object Object::operator/(const Object& rhs)
 	Object& curr = *this;
 
 #if defined(SVM_64BIT)
-	OBJECT_NUMERIC_ARITH64(ret, curr, rhs, /);
+	OBJECT_NUMERIC_BINARY_ARITH64(ret, curr, rhs, /);
 #else
-	OBJECT_NUMERIC_ARITH32(ret, curr, rhs, /);
+	OBJECT_NUMERIC_BINARY_ARITH32(ret, curr, rhs, /);
 #endif
 
 	return ret;
@@ -314,9 +314,9 @@ Object Object::operator%(const Object& rhs)
 	Object& curr = *this;
 
 #if defined(SVM_64BIT)
-	OBJECT_INTEGRAL_ARITH64(ret, curr, rhs, %);
+	OBJECT_INTEGRAL_BINARY_ARITH64(ret, curr, rhs, %);
 #else
-	OBJECT_INTEGRAL_ARITH32(ret, curr, rhs, %);
+	OBJECT_INTEGRAL_BINARY_ARITH32(ret, curr, rhs, %);
 #endif
 
 	return ret;
@@ -328,9 +328,9 @@ Object Object::operator<<(const Object& rhs)
 	Object& curr = *this;
 
 #if defined(SVM_64BIT)
-	OBJECT_INTEGRAL_ARITH64(ret, curr, rhs, <<);
+	OBJECT_INTEGRAL_BINARY_ARITH64(ret, curr, rhs, <<);
 #else
-	OBJECT_INTEGRAL_ARITH32(ret, curr, rhs, <<);
+	OBJECT_INTEGRAL_BINARY_ARITH32(ret, curr, rhs, <<);
 #endif
 
 	return ret;
@@ -342,12 +342,38 @@ Object Object::operator>>(const Object& rhs)
 	Object& curr = *this;
 
 #if defined(SVM_64BIT)
-	OBJECT_INTEGRAL_ARITH64(ret, curr, rhs, >>);
+	OBJECT_INTEGRAL_BINARY_ARITH64(ret, curr, rhs, >>);
 #else
-	OBJECT_INTEGRAL_ARITH32(ret, curr, rhs, >>);
+	OBJECT_INTEGRAL_BINARY_ARITH32(ret, curr, rhs, >>);
 #endif
 
 	return ret;
+}
+
+Object& Object::operator++()
+{
+	Object& curr = *this;
+
+#if defined(SVM_64BIT)
+	OBJECT_NUMERIC_UNARY_ARITH64(ret, curr, +1);
+#else
+	OBJECT_NUMERIC_UNARY_ARITH32(curr, curr, +1);
+#endif
+
+	return curr;
+}
+
+Object& Object::operator--()
+{
+	Object& curr = *this;
+
+#if defined(SVM_64BIT)
+	OBJECT_NUMERIC_UNARY_ARITH64(ret, curr, -1);
+#else
+	OBJECT_NUMERIC_UNARY_ARITH32(curr, curr, -1);
+#endif
+
+	return curr;
 }
 
 const ObjectType Object::getType() const
