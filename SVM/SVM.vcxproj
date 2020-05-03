@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="allocator.cpp" />
     <ClCompile Include="chunk.cpp" />
+    <ClCompile Include="code_buffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="object.cpp" />
@@ -153,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="allocator.hpp" />
     <ClInclude Include="chunk.hpp" />
+    <ClInclude Include="code_buffer.hpp" />
     <ClInclude Include="common.hpp" />
     <ClInclude Include="debug.hpp" />
     <ClInclude Include="memory.hpp" />

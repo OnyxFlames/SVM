@@ -6,13 +6,12 @@
 
 #include "object.hpp"
 
+#include "code_buffer.hpp"
+
 class Chunk
 {
 private:
-	uint8_t* mCode;
-	size_t mCount;
-	size_t mCapacity;
-
+	CodeBuffer mCode;
 	std::vector<Object> mConstants;
 public:
 	Chunk();

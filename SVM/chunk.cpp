@@ -3,25 +3,13 @@
 #include "memory.hpp"
 
 Chunk::Chunk()
-	:	mCode(nullptr)
-	,	mCount(0)
-	,	mCapacity(0)
+
 {
 }
 
 size_t Chunk::write(uint8_t byte)
 {
-	if (mCapacity < mCount + 1)
-	{
-		size_t old_capacity = mCapacity;
-		mCapacity = grow_capacity(old_capacity);
-		mCode = grow_array(mCode, uint8_t, old_capacity, mCapacity);
-	}
-
-	mCode[mCount] = byte;
-	++mCount;
-
-	return mCount;
+	return mCode.write(byte);
 }
 
 size_t Chunk::addConstant(Object obj)
