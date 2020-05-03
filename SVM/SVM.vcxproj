@@ -147,6 +147,7 @@
     <ClCompile Include="object_type.cpp" />
     <ClCompile Include="object_type_traits.cpp" />
     <ClCompile Include="opcode.cpp" />
+    <ClCompile Include="string_util.cpp" />
     <ClCompile Include="vm_code_gen.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="object_type.hpp" />
     <ClInclude Include="object_type_traits.hpp" />
     <ClInclude Include="opcode.hpp" />
+    <ClInclude Include="string_util.hpp" />
     <ClInclude Include="vm_code_gen.hpp" />
   </ItemGroup>
   <ItemGroup>
