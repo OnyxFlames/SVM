@@ -6,6 +6,8 @@
 #include <cstddef>
 #include <string>
 
+//#define SVM_64BIT
+
 // enable debugging features
 #define SVM_DEBUG
 

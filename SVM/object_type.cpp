@@ -24,3 +24,36 @@ std::string to_string(ObjectType type)
 	default: return "Unknown Type";
 	}
 }
+
+const static uint8_t _type_width[ObjectType::TypeCount] =
+{
+	0, // Nil
+	1, // Int8
+	1, // UInt8
+	2, // Int16
+	2, // UInt16
+	4, // Int32
+	4, // UInt32
+	8, // Int64
+	8, // UInt64
+	4, // Float32
+	8, // Float64
+	0, // String
+	0, // SVMObject
+};
+
+uint8_t width(const ObjectType type)
+{
+	return _type_width[type];
+}
+
+
+bool operator>(const ObjectType lhs, const ObjectType rhs)
+{
+	return _type_width[lhs] > _type_width[rhs];
+}
+
+bool operator<(const ObjectType lhs, const ObjectType rhs)
+{
+	return _type_width[lhs] < _type_width[rhs];
+}

@@ -80,12 +80,91 @@ uint16_t get_type_pair(ObjectType type1, ObjectType type2)
 	return static_cast<uint8_t>(type1) + (static_cast<uint8_t>(type2) << 8);
 }
 
+// TODO: Add special cases for 64 bit objects on 32 bit archs
+
 void generate_object_arith(const std::string output)
 {
 	std::ofstream output_file(output);
 
 	output_file
-		<< generate_macro_header("OBJECT_NUMERIC_ARITH", { "ret", "obj1", "obj2", "op" })
+		<< generate_numeric32_binary_arith()
+		<< generate_integral32_binary_arith()
+		<< generate_numeric64_binary_arith()
+		<< generate_integral64_binary_arith();
+
+}
+
+std::string generate_numeric32_binary_arith()
+{
+	std::stringstream output_file;
+
+	output_file
+		<< generate_macro_header("OBJECT_NUMERIC_ARITH32", { "ret", "obj1", "obj2", "op" })
+		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
+
+	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
+	{
+		for (uint8_t y = 0; y < ObjectType::TypeCount; ++y)
+		{
+			const ObjectType type1 = static_cast<ObjectType>(x), type2 = static_cast<ObjectType>(y);
+			if (
+				is_numeric(type1)
+				&&
+				is_numeric(type2)
+				&& (width(type1) < 8 && width(type2) < 8))
+			{
+				output_file
+					<< generate_switch_case(get_type_pair(type1, type2))
+					<< "ret = Object(obj1.getData()" << get_type_accessor(type1) << " op " << "obj2.getData()" << get_type_accessor(type2) << ");"
+					<< generate_break();
+			}
+		}
+	}
+
+	output_file << generate_switch_footer() << '\n';
+
+	return output_file.str();
+}
+
+std::string generate_integral32_binary_arith()
+{
+	std::stringstream output_file;
+
+	output_file
+		<< generate_macro_header("OBJECT_INTEGRAL_ARITH32", { "ret", "obj1", "obj2", "op" })
+		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
+
+	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
+	{
+		for (uint8_t y = 0; y < ObjectType::TypeCount; ++y)
+		{
+			const ObjectType type1 = static_cast<ObjectType>(x), type2 = static_cast<ObjectType>(y);
+			if (
+				is_integral(type1)
+				&&
+				is_integral(type2)
+				&& (width(type1) < 8 && width(type2) < 8))
+			{
+				output_file
+					<< generate_switch_case(get_type_pair(type1, type2))
+					<< "ret = Object(obj1.getData()" << get_type_accessor(type1) << " op " << "obj2.getData()" << get_type_accessor(type2) << ");"
+					<< generate_break();
+			}
+		}
+	}
+
+	output_file << generate_switch_footer() << '\n';
+
+	return output_file.str();
+}
+
+std::string generate_numeric64_binary_arith()
+{
+
+	std::stringstream output_file;
+
+	output_file
+		<< generate_macro_header("OBJECT_NUMERIC_ARITH64", { "ret", "obj1", "obj2", "op" })
 		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
 
 	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
@@ -108,8 +187,16 @@ void generate_object_arith(const std::string output)
 
 	output_file << generate_switch_footer() << '\n';
 
+	return output_file.str();
+}
+
+std::string generate_integral64_binary_arith()
+{
+
+	std::stringstream output_file;
+
 	output_file
-		<< generate_macro_header("OBJECT_INTEGRAL_ARITH", { "ret", "obj1", "obj2", "op" })
+		<< generate_macro_header("OBJECT_INTEGRAL_ARITH64", { "ret", "obj1", "obj2", "op" })
 		<< generate_switch_header("get_type_pair(obj1.getType(), obj2.getType())");
 
 	for (uint8_t x = 0; x < ObjectType::TypeCount; ++x)
@@ -132,4 +219,5 @@ void generate_object_arith(const std::string output)
 
 	output_file << generate_switch_footer() << '\n';
 
+	return output_file.str();
 }

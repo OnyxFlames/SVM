@@ -9,10 +9,10 @@
 
 #define debug_print_func() do { printf("[Debug]: %s\n", __FUNCSIG__); } while(false)
 
-#elif
+#else
 
 #define debug_print(X)
-#define debug_printf(X)
+#define debug_printf(X, ...)
 #define debug_print_func()
 
 #endif

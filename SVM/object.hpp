@@ -19,10 +19,13 @@ public:
 	Object(uint16_t u16);
 	Object(int32_t i32);
 	Object(uint32_t u32);
+#if defined(SVM_64BIT)
 	Object(int64_t i64);
 	Object(uint64_t u64);
-	Object(float f32);
 	Object(double f64);
+#endif
+	Object(float f32);
+	
 	Object(const char* str);
 
 	~Object();

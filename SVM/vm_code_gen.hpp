@@ -27,3 +27,9 @@ std::string get_type_accessor(ObjectType type);
 uint16_t get_type_pair(ObjectType type1, ObjectType type2);
 
 void generate_object_arith(const std::string output);
+
+std::string generate_numeric32_binary_arith();
+std::string generate_integral32_binary_arith();
+
+std::string generate_numeric64_binary_arith();
+std::string generate_integral64_binary_arith();

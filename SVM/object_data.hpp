@@ -15,16 +15,21 @@ union ObjectData
 	int32_t i32;
 	uint32_t u32;
 	
-	int64_t i64;
-	uint64_t u64;
-	
 	float f32;
 	
+#if defined(SVM_64BIT)
 	double f64;
-	
-
+	int64_t i64;
+	uint64_t u64;
+#endif
 	char* cstr;
 
 	Object* obj;
+
+	// default value
+	ObjectData()
+	{
+		obj = nullptr;
+	}
 };
 

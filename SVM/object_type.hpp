@@ -29,3 +29,8 @@ enum ObjectType : uint8_t
 };
 
 std::string to_string(ObjectType type);
+
+uint8_t width(const ObjectType type);
+
+bool operator>(const ObjectType lhs, const ObjectType rhs);
+bool operator<(const ObjectType lhs, const ObjectType rhs);

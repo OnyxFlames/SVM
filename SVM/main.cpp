@@ -16,13 +16,8 @@
 
 int main(int argc, char* argv[])
 {
-	{
-		Object hi("Goodbye");
-		Object place(" cruel world!\n");
-		Object hi_place = hi + place;
-		hi_place = place + hi;
-		std::cout << hi_place.str();
-	}
+
+	generate_object_arith("output.inl");
 
 	return 0;
 }
