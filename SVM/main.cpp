@@ -4,6 +4,7 @@
 #include "file_util.hpp"
 
 #include "svm_version.hpp"
+#include "platform.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -15,7 +16,11 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-		printf("Filesize: %lld\n", get_filesize("output.inl"));
+		printf("Sapphire: %s\n", SVM_PLATFORM_FULL);
+	}
+	else if (f.print_version)
+	{
+		printf("Sapphire Virtual Machine:\n\t%s\n\t%s\n", SVM_FULL_VERSION, SVM_PLATFORM_FULL);
 	}
 
 	return 0;
