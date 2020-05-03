@@ -33,7 +33,6 @@ Object::Object(const Object& rhs)
 
 Object::Object(Object&& rhs) noexcept
 {
-	
 	this->mType = rhs.mType;
 	// special case for strings
 	if (mType == ObjectType::String)
@@ -125,6 +124,10 @@ Object::~Object()
 
 Object& Object::operator=(const Object& rhs)
 {
+	// free the old string
+	if (mType == String)
+		 free_string(mData.cstr);
+
 	this->mType = rhs.mType;
 	// special case for strings
 	if (mType == ObjectType::String)
@@ -141,13 +144,15 @@ Object& Object::operator=(const Object& rhs)
 
 Object& Object::operator=(Object&& rhs) noexcept
 {
-	//TODO: Add check if current type is a string, to mark it as free before reallocating
+	// free the old string
+	if (mType == String)
+		 free_string(mData.cstr);
+
 	this->mType = rhs.mType;
 	// special case for strings
 	if (mType == ObjectType::String)
 	{
 		mData.cstr = clone_string(rhs.mData.cstr);
-		free_string(rhs.mData.cstr);
 	}
 	else
 	{
@@ -159,7 +164,6 @@ Object& Object::operator=(Object&& rhs) noexcept
 
 Object& Object::operator=(const int8_t i8)
 {
-	
 	mData.i8 = i8;
 	mType = Int8;
 	return *this;
@@ -167,7 +171,6 @@ Object& Object::operator=(const int8_t i8)
 
 Object& Object::operator=(const uint8_t u8)
 {
-	
 	mData.u8 = u8;
 	mType = UInt8;
 	return *this;
@@ -231,7 +234,12 @@ Object& Object::operator=(const double f64)
 
 Object& Object::operator=(char* str)
 {
+	// free the old string
+	if (mType == String)
+		 free_string(mData.cstr);
+
 	mData.cstr = clone_string(str);
+	// explicitly free this string
 	free_string(str);
 	mType = ObjectType::String;
 	return *this;

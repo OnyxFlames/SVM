@@ -14,7 +14,7 @@
 
 #if defined(SVM_DEBUG)
 
-#define SVM_DEBUG_ALLOCATOR
+//#define SVM_DEBUG_ALLOCATOR
 
 #endif
 

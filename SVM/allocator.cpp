@@ -30,7 +30,7 @@ Allocator::~Allocator()
 {
 #if defined(SVM_DEBUG_ALLOCATOR)
 	if (mBlocks.size() > 0)
-		debug_printf("Allocated Blocks:\n");
+		debug_printf("Allocated Blocks[%d]:\n", mBlocks.size());
 	for (auto& it : mBlocks)
 	{
 		debug_printf("\tBlock: %p Size: %d Free: %s\n",

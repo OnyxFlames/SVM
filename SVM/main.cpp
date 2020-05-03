@@ -17,20 +17,10 @@
 int main(int argc, char* argv[])
 {
 	{
-		Object hi("Hello,");
-		Object place(" World!\n");
+		Object hi("Goodbye");
+		Object place(" cruel world!\n");
 		Object hi_place = hi + place;
-		Object hello_place = Object("Goodbye world!\n");
-
-		std::cout << hi_place.str();
-	}
-
-	{
-		Object hi("Hello,");
-		Object place(" World!\n");
-		Object hi_place = hi + place;
-		Object hello_place = Object("Goodbye world!\n");
-
+		hi_place = place + hi;
 		std::cout << hi_place.str();
 	}
 
