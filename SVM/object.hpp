@@ -49,6 +49,8 @@ public:
 	Object operator*(const Object& rhs);
 	Object operator/(const Object& rhs);
 	Object operator%(const Object& rhs);
+	Object operator<<(const Object& rhs);
+	Object operator>>(const Object& rhs);
 
 	const ObjectType getType() const;
 	const ObjectData& getData() const;

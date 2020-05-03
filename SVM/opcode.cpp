@@ -23,6 +23,8 @@ std::string to_string(Opcode opcode)
 		opcode_str_case(Mul);
 		opcode_str_case(Div);
 		opcode_str_case(Mod);
+		opcode_str_case(LShift);
+		opcode_str_case(RShift);
 
 		opcode_str_case(LoadIndex);
 		opcode_str_case(StoreIndex);
@@ -61,6 +63,8 @@ int8_t width(Opcode opcode)
 	case Mul: return 1;
 	case Div: return 1;
 	case Mod: return 1;
+	case LShift: return 1;
+	case RShift: return 1;
 
 	case LoadIndex: return 1;
 	case StoreIndex: return 1;
@@ -93,6 +97,8 @@ const OpcodeFormat _opcode_format[Opcode::OPCODE_COUNT]
 	NoFormat,
 	NoFormat,
 
+	NoFormat,
+	NoFormat,
 	NoFormat,
 	NoFormat,
 	NoFormat,

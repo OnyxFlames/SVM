@@ -6,6 +6,10 @@
 #include "svm_version.hpp"
 #include "platform.hpp"
 
+#include "object.hpp"
+
+#include <iostream>
+
 int main(int argc, char* argv[])
 {
 	ArgumentHandler args(argc, argv);
@@ -16,7 +20,7 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-		printf("Sapphire: %s\n", SVM_PLATFORM_FULL);
+
 	}
 	else if (f.print_version)
 	{

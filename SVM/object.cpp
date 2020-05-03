@@ -322,6 +322,34 @@ Object Object::operator%(const Object& rhs)
 	return ret;
 }
 
+Object Object::operator<<(const Object& rhs)
+{
+	Object ret;
+	Object& curr = *this;
+
+#if defined(SVM_64BIT)
+	OBJECT_INTEGRAL_ARITH64(ret, curr, rhs, <<);
+#else
+	OBJECT_INTEGRAL_ARITH32(ret, curr, rhs, <<);
+#endif
+
+	return ret;
+}
+
+Object Object::operator>>(const Object& rhs)
+{
+	Object ret;
+	Object& curr = *this;
+
+#if defined(SVM_64BIT)
+	OBJECT_INTEGRAL_ARITH64(ret, curr, rhs, >>);
+#else
+	OBJECT_INTEGRAL_ARITH32(ret, curr, rhs, >>);
+#endif
+
+	return ret;
+}
+
 const ObjectType Object::getType() const
 {
 	return mType;

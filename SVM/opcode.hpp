@@ -20,7 +20,8 @@ enum Opcode : uint8_t
 	Mul,
 	Div,
 	Mod,
-	
+	LShift,
+	RShift,
 
 	LoadIndex,
 	/*
