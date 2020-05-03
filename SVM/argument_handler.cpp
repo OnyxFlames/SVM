@@ -1,6 +1,7 @@
 #include "argument_handler.hpp"
 
 #include "common.hpp"
+#include "file_util.hpp"
 
 #if defined(SVM_DEVELOPER_FEATURES)
 #include "vm_code_gen.hpp"
@@ -16,6 +17,7 @@ ArgumentHandler::ArgumentHandler(int _argc, char* _argv[])
 void ArgumentHandler::eval()
 {
 #define curr(str) (mArgs[i] == str)
+#define get_curr() (mArgs[i])
 #define prev(str) (i > 1 ? mArgs[i - 1] == str : "" == str)
 #define next(str) (i + 1 < mArgs.size() ? mArgs[i + 1] == str : "" == str)
 #define get_next() (i + 1 < mArgs.size() ? mArgs[i + 1]  : "")
@@ -61,10 +63,10 @@ void ArgumentHandler::eval()
 				generate_object_arith(get_next());
 		}
 #endif
-		else if (curr("example.svmc"))
+		else if (get_extension(get_curr()) == ".svmc")
 		{
-			// TODO: add file extension checking
 			mFlags.run_prog = true;
+			mFlags.file_args.push_back(get_curr());
 		}
 		else if (curr("--test"))
 		{

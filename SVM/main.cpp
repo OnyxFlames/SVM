@@ -1,6 +1,8 @@
 
 #include "argument_handler.hpp"
 
+#include "file_util.hpp"
+
 int main(int argc, char* argv[])
 {
 	ArgumentHandler args(argc, argv);
@@ -11,7 +13,7 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-		printf("No built-in test.\n");
+		printf("Extension of %s: %s\n", "test.svm", get_extension("test.svm").c_str());
 	}
 
 	return 0;
