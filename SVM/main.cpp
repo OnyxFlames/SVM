@@ -16,19 +16,13 @@
 
 int main(int argc, char* argv[])
 {
-	uint8_t bytecode[] = 
 	{
-		LoadConstant, 0x00, 0x00,
-		LoadWideConstant, 0x00, 0x00, 0x01,
-	};
+		Object hi("Hello,");
+		Object place(" World!\n");
+		Object hi_place = hi + place;
+		Object hello_place = Object("Goodbye world!\n");
 
-	Chunk chunk;
-	chunk.addConstant(Object("Hello world!"));
-	chunk.addConstant(Object("Goodbye, world!"));
-	std::cout
-		<< format(bytecode, &chunk) << '\n'
-		<< format(bytecode + width(LoadConstant), &chunk);
-
-
+		std::cout << hi_place.str();
+	}
 	return 0;
 }

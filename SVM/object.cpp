@@ -31,7 +31,7 @@ Object::Object(const Object& rhs)
 	}
 }
 
-Object::Object(Object&& rhs)
+Object::Object(Object&& rhs) noexcept
 {
 	
 	this->mType = rhs.mType;
@@ -39,6 +39,7 @@ Object::Object(Object&& rhs)
 	if (mType == ObjectType::String)
 	{
 		mData.cstr = clone_string(rhs.mData.cstr);
+		//free_string(rhs.mData.cstr);
 	}
 	else
 	{
@@ -146,6 +147,7 @@ Object& Object::operator=(Object&& rhs) noexcept
 	if (mType == ObjectType::String)
 	{
 		mData.cstr = clone_string(rhs.mData.cstr);
+		free_string(rhs.mData.cstr);
 	}
 	else
 	{
@@ -227,13 +229,27 @@ Object& Object::operator=(const double f64)
 	return *this;
 }
 
+Object& Object::operator=(char* str)
+{
+	mData.cstr = clone_string(str);
+	free_string(str);
+	mType = ObjectType::String;
+	return *this;
+}
+
 Object Object::operator+(const Object& rhs)
 {
 	Object ret;
 	Object& curr = *this;
 
-	OBJECT_NUMERIC_ARITH(ret, curr, rhs, +);
-
+	if (mType == ObjectType::String)
+	{
+		ret = concat_string(mData.cstr, rhs.mData.cstr);
+	}
+	else
+	{
+		OBJECT_NUMERIC_ARITH(ret, curr, rhs, +);
+	}
 	return ret;
 }
 

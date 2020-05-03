@@ -12,7 +12,7 @@ private:
 public:
 	Object();
 	Object(const Object& rhs);
-	Object(Object&& rhs);
+	Object(Object&& rhs) noexcept;
 	Object(int8_t i8);
 	Object(uint8_t u8);
 	Object(int16_t i16);
@@ -39,7 +39,7 @@ public:
 	Object& operator=(const uint64_t u64);
 	Object& operator=(const float f32);
 	Object& operator=(const double f64);
-
+	Object& operator=(char* str);
 
 	Object operator+(const Object& rhs);
 	Object operator-(const Object& rhs);

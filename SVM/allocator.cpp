@@ -29,11 +29,17 @@ void* Allocator::allocate(size_t size)
 	if (block && block->free)
 	{
 		block->free = false;
+#if defined(SVM_DEBUG_ALLOCATOR)
+		debug_printf("Returning block %p\n", block->get());
+#endif
 		return block->get();
 	}
 	else
 	{
 		mBlocks.push_back(Block(size));
+#if defined(SVM_DEBUG_ALLOCATOR)
+		debug_printf("Returning block %p\n", mBlocks.back().get());
+#endif
 		return mBlocks.back().get();
 	}
 }
@@ -46,7 +52,7 @@ void Allocator::mark_free(void* block)
 	{
 		if (used_block->free)
 		{
-			debug_printf("Block already freed!\n");
+			debug_printf("Double free on block %p (%d bytes)\n", used_block->get(), used_block->size);
 			return;
 		}
 #if defined(SVM_DEBUG_ALLOCATOR)
@@ -55,7 +61,7 @@ void Allocator::mark_free(void* block)
 		used_block->free = true;
 	}
 	else
-		debug_printf("Invalid block\n");
+		debug_printf("%p is not a valid block (or isn't owned by this allocator)\n", block);
 }
 
 Allocator& Allocator::getGlobalAllocator()
