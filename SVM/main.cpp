@@ -3,6 +3,8 @@
 
 #include "file_util.hpp"
 
+#include "svm_version.hpp"
+
 int main(int argc, char* argv[])
 {
 	ArgumentHandler args(argc, argv);
@@ -13,7 +15,7 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-		printf("Extension of %s: %s\n", "test.svm", get_extension("test.svm").c_str());
+		printf("Version: %s\n", SVM_FULL_VERSION);
 	}
 
 	return 0;

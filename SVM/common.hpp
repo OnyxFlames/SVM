@@ -12,6 +12,7 @@
 #define SVM_DEBUG
 // enable features that allow the VM to be developed
 #define SVM_DEVELOPER_FEATURES
+
 // release candidate
 //#define SVM_RELEASE
 
