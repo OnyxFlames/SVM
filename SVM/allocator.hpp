@@ -35,20 +35,11 @@ private:
 
 	Block* find_block(void* block);
 	Block* find_block(size_t size);
+	Block* find_free_block(size_t size);
 public:
 
-	~Allocator()
-	{
-#if defined(SVM_DEBUG_ALLOCATOR)
-		if (mBlocks.size() > 0)
-			debug_printf("Allocated Blocks:\n");
-		for (auto& it : mBlocks)
-		{
-			debug_printf("\tBlock: %p Size: %d Free: %s\n",
-				it.get(), it.size, (it.free ? "true" : "false"));
-		}
-#endif
-	}
+	~Allocator();
+
 
 	void* allocate(size_t size);
 	void mark_free(void* block);

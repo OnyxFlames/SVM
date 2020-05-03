@@ -9,7 +9,7 @@ Allocator::Block* Allocator::find_block(void* block)
 			return &it;
 	return nullptr;
 }
-
+// should finding a block by size implicitly be free?
 Allocator::Block* Allocator::find_block(size_t size)
 {
 	for (auto& it : mBlocks)
@@ -18,19 +18,40 @@ Allocator::Block* Allocator::find_block(size_t size)
 	return nullptr;
 }
 
+Allocator::Block* Allocator::find_free_block(size_t size)
+{
+	for (auto& it : mBlocks)
+		if (it.size >= size && it.free)
+			return &it;
+	return nullptr;
+}
+
+Allocator::~Allocator()
+{
+#if defined(SVM_DEBUG_ALLOCATOR)
+	if (mBlocks.size() > 0)
+		debug_printf("Allocated Blocks:\n");
+	for (auto& it : mBlocks)
+	{
+		debug_printf("\tBlock: %p Size: %d Free: %s\n",
+			it.get(), it.size, (it.free ? "true" : "false"));
+	}
+#endif
+}
+
 void* Allocator::allocate(size_t size)
 {
 #if defined(SVM_DEBUG_ALLOCATOR)
 	debug_printf("Requesting %d bytes (returning %d)\n", size, next_power(size));
 #endif
 
-	Block* block = find_block(size);
+	Block* block = find_free_block(size);
 
 	if (block && block->free)
 	{
 		block->free = false;
 #if defined(SVM_DEBUG_ALLOCATOR)
-		debug_printf("Returning block %p\n", block->get());
+		debug_printf("Returning old block %p\n", block->get());
 #endif
 		return block->get();
 	}
@@ -38,7 +59,7 @@ void* Allocator::allocate(size_t size)
 	{
 		mBlocks.push_back(Block(size));
 #if defined(SVM_DEBUG_ALLOCATOR)
-		debug_printf("Returning block %p\n", mBlocks.back().get());
+		debug_printf("Returning new block %p\n", mBlocks.back().get());
 #endif
 		return mBlocks.back().get();
 	}
@@ -52,7 +73,7 @@ void Allocator::mark_free(void* block)
 	{
 		if (used_block->free)
 		{
-			debug_printf("Double free on block %p (%d bytes)\n", used_block->get(), used_block->size);
+			debug_printf("Multiple free on block %p (%d bytes)\n", used_block->get(), used_block->size);
 			return;
 		}
 #if defined(SVM_DEBUG_ALLOCATOR)

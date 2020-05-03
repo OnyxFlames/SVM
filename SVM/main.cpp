@@ -24,5 +24,15 @@ int main(int argc, char* argv[])
 
 		std::cout << hi_place.str();
 	}
+
+	{
+		Object hi("Hello,");
+		Object place(" World!\n");
+		Object hi_place = hi + place;
+		Object hello_place = Object("Goodbye world!\n");
+
+		std::cout << hi_place.str();
+	}
+
 	return 0;
 }
