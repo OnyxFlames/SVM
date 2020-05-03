@@ -1,12 +1,16 @@
 #include "file_util.hpp"
 
+#include "platform.hpp"
+
 #if __cpp_lib_filesystem
 #include <filesystem>
 namespace fs = std::filesystem;
 #define HAS_STD_FILESYSTEM
 #elif  __cpp_lib_experimental_filesystem
-// TODO: Check if platform is MSVC
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+
+#if defined(SVM_PLATFORM_COMPILER_MSVC)
+#	define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#endif
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 #define HAS_STD_FILESYSTEM

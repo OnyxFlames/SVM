@@ -32,7 +32,7 @@
 #elif defined(__linux__)
 #define SVM_PLATFORM_OS_LINUX
 #define SVM_PLATFORM_OS "Linux"
-#elif defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)
+#elif defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__))
 #define SVM_PLATFORM_OS_OSX
 #define SVM_PLATFORM_OS "OSX"
 #elif defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
