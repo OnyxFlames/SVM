@@ -12,22 +12,22 @@ private:
 	ObjectData mData;
 
 public:
-	Object();
+	explicit Object();
 	Object(const Object& rhs);
 	Object(Object&& rhs) noexcept;
-	Object(int8_t i8);
-	Object(uint8_t u8);
-	Object(int16_t i16);
-	Object(uint16_t u16);
-	Object(int32_t i32);
-	Object(uint32_t u32);
+	explicit Object(int8_t i8);
+	explicit Object(uint8_t u8);
+	explicit Object(int16_t i16);
+	explicit Object(uint16_t u16);
+	explicit Object(int32_t i32);
+	explicit Object(uint32_t u32);
 #if defined(SVM_64BIT)
-	Object(int64_t i64);
-	Object(uint64_t u64);
-	Object(double f64);
+	explicit Object(int64_t i64);
+	explicit Object(uint64_t u64);
+	explicit Object(double f64);
 #endif
-	Object(float f32);
-	Object(const char* str);
+	explicit Object(float f32);
+	explicit Object(const char* str);
 
 	~Object();
 
