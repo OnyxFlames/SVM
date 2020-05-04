@@ -20,5 +20,5 @@ public:
 
 	uint8_t* get();
 
-
+	const size_t size() const;
 };

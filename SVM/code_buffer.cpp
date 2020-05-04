@@ -55,3 +55,8 @@ uint8_t* CodeBuffer::get()
 {
 	return mCode;
 }
+
+const size_t CodeBuffer::size() const
+{
+	return mCount;
+}

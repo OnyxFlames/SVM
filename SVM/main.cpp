@@ -7,7 +7,8 @@
 #include "platform.hpp"
 
 #include "object.hpp"
-
+#include "code_buffer.hpp"
+#include "opcode.hpp"
 #include <iostream>
 
 int main(int argc, char* argv[])
@@ -20,8 +21,23 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-		
+		CodeBuffer cbuff;
 
+		cbuff.write(
+		{
+			LoadConstant, 0x00, 0x01,
+			Add,
+			Sub,
+			Mul,
+			Halt,
+		});
+
+		uint8_t* code = cbuff.get();
+		for (size_t i = 0; i < cbuff.size(); i += width(static_cast<Opcode>(*code)))
+		{
+			code = cbuff.get() + i;
+			std::cout << format(code) << '\n';
+		}
 	}
 	else if (f.print_version)
 	{
