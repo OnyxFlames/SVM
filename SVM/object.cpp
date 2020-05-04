@@ -518,7 +518,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<int8_t> i8;
 			i8.data = object.getData().i8;
 			for (size_t i = 0; i < sizeof(int8_t); ++i)
-				ret.push_back(i8.bytes[i]);
+				ret.push_back(i8[i]);
 			return ret;
 		}
 		case UInt8:
@@ -526,7 +526,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<uint8_t> u8;
 			u8.data = object.getData().u8;
 			for (size_t i = 0; i < sizeof(uint8_t); ++i)
-				ret.push_back(u8.bytes[i]);
+				ret.push_back(u8[i]);
 			return ret;
 		}
 		case Int16:
@@ -534,7 +534,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<int16_t> i16;
 			i16.data = object.getData().i16;
 			for (size_t i = 0; i < sizeof(int16_t); ++i)
-				ret.push_back(i16.bytes[sizeof(int16_t) - 1 - i]);
+				ret.push_back(i16[i]);
 			return ret;
 		}
 		case UInt16:
@@ -542,7 +542,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<uint16_t> u16;
 			u16.data = object.getData().u16;
 			for (size_t i = 0; i < sizeof(uint16_t); ++i)
-				ret.push_back(u16.bytes[sizeof(uint16_t) - 1 - i]);
+				ret.push_back(u16[i]);
 			return ret;
 		}
 		case Int32:
@@ -550,7 +550,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<int32_t> i32;
 			i32.data = object.getData().i32;
 			for (size_t i = 0; i < sizeof(int32_t); ++i)
-				ret.push_back(i32.bytes[sizeof(int32_t) - 1 - i]);
+				ret.push_back(i32[i]);
 			return ret;
 		}
 		case UInt32:
@@ -558,7 +558,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<uint32_t> u32;
 			u32.data = object.getData().u32;
 			for (size_t i = 0; i < sizeof(uint32_t); ++i)
-				ret.push_back(u32.bytes[sizeof(uint32_t) - 1 - i]);
+				ret.push_back(u32[i]);
 			return ret;
 		}
 		case Float32:
@@ -566,7 +566,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<float> f32;
 			f32.data = object.getData().f32;
 			for (size_t i = 0; i < sizeof(float); ++i)
-				ret.push_back(f32.bytes[sizeof(float) - 1 - i]);
+				ret.push_back(f32[i]);
 			return ret;
 		}
 		case String:
@@ -585,7 +585,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<int32_t> i64;
 			i64.data = object.getData().i64;
 			for (size_t i = 0; i < sizeof(int64_t); ++i)
-				ret.push_back(i64.bytes[sizeof(int64_t) - 1 - i]);
+				ret.push_back(i64[i]);
 			return ret;
 		}
 		case UInt64:
@@ -593,7 +593,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<uint8_t> u64;
 			u64.data = object.getData().u64;
 			for (size_t i = 0; i < sizeof(uint64_t); ++i)
-				ret.push_back(u64.bytes[sizeof(uint64_t) - 1 - i]);
+				ret.push_back(u64[i]);
 			return ret;
 		}
 		case Float64:
@@ -601,7 +601,7 @@ std::vector<uint8_t> Object::to_bytes(const Object& object)
 			ByteBuffer<uint8_t> f64;
 			f64.data = object.getData().f64;
 			for (size_t i = 0; i < sizeof(double); ++i)
-				ret.push_back(f64.bytes[sizeof(double) - 1 - i]);
+				ret.push_back(f64[i]);
 			return ret;
 		}
 #endif
