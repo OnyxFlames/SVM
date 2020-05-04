@@ -414,6 +414,203 @@ const std::string Object::str() const
 	return ss.str();
 }
 
+#include "byte_buffer.hpp"
+
+Object Object::from_bytes(const ObjectType type, const std::vector<uint8_t>& bytes)
+{
+	switch (type)
+	{
+		case Int8:
+		{
+			ByteBuffer<int8_t> i8;
+			i8.bytes[0] = bytes[0];
+			return Object(i8.data);
+		}
+		case UInt8:
+		{
+			ByteBuffer<uint8_t> u8;
+			u8.bytes[0] = bytes[0];
+			return Object(u8.data);
+		}
+		case Int16:
+		{
+			ByteBuffer<int16_t> i16;
+			for (size_t i = 0; i < sizeof(int16_t); ++i)
+				i16.bytes[i] = bytes[i];
+			return Object(i16.data);
+		}
+		case UInt16:
+		{
+			ByteBuffer<uint16_t> u16;
+			for (size_t i = 0; i < sizeof(uint16_t); ++i)
+				u16.bytes[i] = bytes[i];
+			return Object(u16.data);
+		}
+		case Int32:
+		{
+			ByteBuffer<int32_t> i32;
+			for (size_t i = 0; i < sizeof(int32_t); ++i)
+				i32.bytes[i] = bytes[i];
+			return Object(i32.data);
+		}
+		case UInt32:
+		{
+			ByteBuffer<uint32_t> u32;
+			for (size_t i = 0; i < sizeof(uint32_t); ++i)
+				u32.bytes[i] = bytes[i];
+			return Object(u32.data);
+		}
+		case Float32:
+		{
+			ByteBuffer<uint8_t> f32;
+			for (size_t i = 0; i < sizeof(float); ++i)
+				f32.bytes[i] = bytes[i];
+			return Object(f32.data);
+		}
+#if defined(SVM_64BIT)
+		case Int64:
+		{
+			ByteBuffer<int64_t> i64;
+			for (size_t i = 0; i < sizeof(int64_t); ++i)
+				i64.bytes[i] = bytes[i];
+			return Object(i64.data);
+		}
+		case UInt64:
+		{
+			ByteBuffer<uint64_t> u64;
+			for (size_t i = 0; i < sizeof(uint64_t); ++i)
+				u64.bytes[i] = bytes[i];
+			return Object(u64.data);
+		}
+		case Float64:
+		{
+			ByteBuffer<double> f64;
+			for (size_t i = 0; i < sizeof(double); ++i)
+				f64.bytes[i] = bytes[i];
+			return Object(f64.data);
+		}
+#endif
+		case String:
+		{
+			// save the string copy by directly initializing it
+			char* str = static_cast<char*>(Allocator::getGlobalAllocator().allocate(bytes.size() + 1));
+			str[bytes.size()] = '\0';
+			Object ret;
+			ret.mType = String;
+			ret.mData.cstr = str;
+			return ret;
+		}
+		default: 
+			printf("Unable to contruct arbitrary object of type %s from bytes.\n", to_string(type).c_str());
+			return Object();
+		break;
+	}
+
+}
+// Note: assumes little-endian, when porting to big endian platforms this needs to be tweaked into endian-aware functions
+std::vector<uint8_t> Object::to_bytes(const Object& object)
+{
+	std::vector<uint8_t> ret;
+	switch (object.getType())
+	{
+		case Int8:
+		{
+			ByteBuffer<int8_t> i8;
+			i8.data = object.getData().i8;
+			for (size_t i = 0; i < sizeof(int8_t); ++i)
+				ret.push_back(i8.bytes[i]);
+			return ret;
+		}
+		case UInt8:
+		{
+			ByteBuffer<uint8_t> u8;
+			u8.data = object.getData().u8;
+			for (size_t i = 0; i < sizeof(uint8_t); ++i)
+				ret.push_back(u8.bytes[i]);
+			return ret;
+		}
+		case Int16:
+		{
+			ByteBuffer<int16_t> i16;
+			i16.data = object.getData().i16;
+			for (size_t i = 0; i < sizeof(int16_t); ++i)
+				ret.push_back(i16.bytes[sizeof(int16_t) - 1 - i]);
+			return ret;
+		}
+		case UInt16:
+		{
+			ByteBuffer<uint16_t> u16;
+			u16.data = object.getData().u16;
+			for (size_t i = 0; i < sizeof(uint16_t); ++i)
+				ret.push_back(u16.bytes[sizeof(uint16_t) - 1 - i]);
+			return ret;
+		}
+		case Int32:
+		{
+			ByteBuffer<int32_t> i32;
+			i32.data = object.getData().i32;
+			for (size_t i = 0; i < sizeof(int32_t); ++i)
+				ret.push_back(i32.bytes[sizeof(int32_t) - 1 - i]);
+			return ret;
+		}
+		case UInt32:
+		{
+			ByteBuffer<uint32_t> u32;
+			u32.data = object.getData().u32;
+			for (size_t i = 0; i < sizeof(uint32_t); ++i)
+				ret.push_back(u32.bytes[sizeof(uint32_t) - 1 - i]);
+			return ret;
+		}
+		case Float32:
+		{
+			ByteBuffer<float> f32;
+			f32.data = object.getData().f32;
+			for (size_t i = 0; i < sizeof(float); ++i)
+				ret.push_back(f32.bytes[sizeof(float) - 1 - i]);
+			return ret;
+		}
+		case String:
+		{
+			char* str = object.mData.cstr;
+			const size_t size = std::strlen(str);
+
+			for (size_t i = 0; i < size; ++i)
+				ret.push_back(static_cast<uint8_t>(str[i]));
+			ret.push_back('\0');
+			return ret;
+		}
+#if defined(SVM_64BIT)
+		case Int64:
+		{
+			ByteBuffer<int32_t> i64;
+			i64.data = object.getData().i64;
+			for (size_t i = 0; i < sizeof(int64_t); ++i)
+				ret.push_back(i64.bytes[sizeof(int64_t) - 1 - i]);
+			return ret;
+		}
+		case UInt64:
+		{
+			ByteBuffer<uint8_t> u64;
+			u64.data = object.getData().u64;
+			for (size_t i = 0; i < sizeof(uint64_t); ++i)
+				ret.push_back(u64.bytes[sizeof(uint64_t) - 1 - i]);
+			return ret;
+		}
+		case Float64:
+		{
+			ByteBuffer<uint8_t> f64;
+			f64.data = object.getData().f64;
+			for (size_t i = 0; i < sizeof(double); ++i)
+				ret.push_back(f64.bytes[sizeof(double) - 1 - i]);
+			return ret;
+		}
+#endif
+		default: 
+			printf("Unable to convert object of type %s into bytestream.\n", to_string(object.getType()).c_str());
+			return std::vector<uint8_t>();
+	}
+}
+
 // Note: this assumes 64-bit Sapphire, using u64 to modify numbers
 #if defined(SVM_64BIT)
 bool Object::cast_to(ObjectType type)

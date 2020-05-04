@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="allocator.cpp" />
     <ClCompile Include="argument_handler.cpp" />
+    <ClCompile Include="byte_buffer.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="code_buffer.cpp" />
     <ClCompile Include="file_util.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="allocator.hpp" />
     <ClInclude Include="argument_handler.hpp" />
+    <ClInclude Include="byte_buffer.hpp" />
     <ClInclude Include="chunk.hpp" />
     <ClInclude Include="code_buffer.hpp" />
     <ClInclude Include="common.hpp" />

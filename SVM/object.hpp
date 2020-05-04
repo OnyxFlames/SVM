@@ -3,6 +3,8 @@
 #include "object_type.hpp"
 #include "object_data.hpp"
 
+#include <vector>
+
 class Object
 {
 private:
@@ -25,7 +27,6 @@ public:
 	Object(double f64);
 #endif
 	Object(float f32);
-	
 	Object(const char* str);
 
 	~Object();
@@ -64,4 +65,7 @@ public:
 		allowing the object to behave more expectedly when casting down, then casting up
 	*/
 	bool cast_to(ObjectType type);
+	
+	static Object from_bytes(const ObjectType type, const std::vector<uint8_t>& bytes);
+	static std::vector<uint8_t> to_bytes(const Object& object);
 };
