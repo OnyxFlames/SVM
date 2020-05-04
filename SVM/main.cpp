@@ -20,10 +20,7 @@ int main(int argc, char* argv[])
 
 	if (f.run_builtin_test)
 	{
-		Object obj(0xdeadbeef);
 		
-		for (auto c : Object::to_bytes(obj))
-			printf("%02X", c);
 
 	}
 	else if (f.print_version)

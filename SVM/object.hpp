@@ -28,6 +28,7 @@ public:
 #endif
 	explicit Object(float f32);
 	explicit Object(const char* str);
+	explicit Object(FILE* file);
 
 	~Object();
 

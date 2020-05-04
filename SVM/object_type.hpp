@@ -23,6 +23,8 @@ enum ObjectType : uint8_t
 
 	String,
 
+	FileHandle,
+
 	SVMObject,
 
 	TypeCount,

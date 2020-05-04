@@ -24,6 +24,8 @@ union ObjectData
 #endif
 	char* cstr;
 
+	FILE* file;
+
 	Object* obj;
 
 	// default value

@@ -112,6 +112,12 @@ Object::Object(const char* str)
 	mData.cstr = clone_string(str);
 }
 
+Object::Object(FILE* file)
+	:	mType(ObjectType::FileHandle)
+{
+	mData.file = file;
+}
+
 Object::~Object()
 {
 	if (mType == ObjectType::String)

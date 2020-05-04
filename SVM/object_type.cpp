@@ -20,6 +20,7 @@ std::string to_string(ObjectType type)
 		type_string_case(Float32);
 		type_string_case(Float64);
 		type_string_case(String);
+		type_string_case(FileHandle);
 		type_string_case(SVMObject);
 	default: return "Unknown Type";
 	}
@@ -39,6 +40,7 @@ const static uint8_t _type_width[ObjectType::TypeCount] =
 	4, // Float32
 	8, // Float64
 	0, // String
+	0, // FileHandle
 	0, // SVMObject
 };
 
